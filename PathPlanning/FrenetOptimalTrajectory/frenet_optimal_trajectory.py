@@ -118,7 +118,7 @@ class FrenetPath:
 
 def calc_frenet_paths(c_speed, c_accel, c_d, c_d_d, c_d_dd, s0):
     frenet_paths = []
-
+    # 全量采样，横向+时间+速度
     # generate path to each offset goal
     for di in np.arange(-MAX_ROAD_WIDTH, MAX_ROAD_WIDTH, D_ROAD_W):
 
@@ -231,6 +231,7 @@ def frenet_optimal_planning(csp, s0, c_speed, c_accel, c_d, c_d_d, c_d_dd, ob):
     fplist = check_paths(fplist, ob)
 
     # find minimum cost path
+    # 简单地遍历所有可行解，选择代价最小的
     min_cost = float("inf")
     best_path = None
     for fp in fplist:
@@ -304,7 +305,7 @@ def main():
                 'key_release_event',
                 lambda event: [exit(0) if event.key == 'escape' else None])
             plt.plot(tx, ty)
-            plt.plot(ob[:, 0], ob[:, 1], "xk")
+            plt.plot(ob[:, 0], ob[:, 1], "xk") # Obstacle
             plt.plot(path.x[1:], path.y[1:], "-or")
             plt.plot(path.x[1], path.y[1], "vc")
             plt.xlim(path.x[1] - area, path.x[1] + area)
